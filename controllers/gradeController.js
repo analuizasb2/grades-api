@@ -1,5 +1,6 @@
 import { db } from '../models/index.js';
 import { logger } from '../config/logger.js';
+import { gradeModel } from '../models/gradeModel.js';
 
 const create = async (req, res) => {
   try {
@@ -23,6 +24,8 @@ const findAll = async (req, res) => {
 
   try {
     logger.info(`GET /grade`);
+    const allGrades = await gradeModel.find({});
+    res.send(allGrades);
   } catch (error) {
     res
       .status(500)
@@ -33,9 +36,14 @@ const findAll = async (req, res) => {
 
 const findOne = async (req, res) => {
   const id = req.params.id;
-
   try {
     logger.info(`GET /grade - ${id}`);
+    const grade = await gradeModel.findById(id);
+
+    if (!grade) {
+      res.status(404).send('ID não encontrado!');
+    }
+    res.send(grade);
   } catch (error) {
     res.status(500).send({ message: 'Erro ao buscar o Grade id: ' + id });
     logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
@@ -53,6 +61,13 @@ const update = async (req, res) => {
 
   try {
     logger.info(`PUT /grade - ${id} - ${JSON.stringify(req.body)}`);
+    const newGrade = await gradeModel.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+    if (!newGrade) {
+      res.status(404).send('ID não encontrado!');
+    }
+    res.send(newGrade);
   } catch (error) {
     res.status(500).send({ message: 'Erro ao atualizar a Grade id: ' + id });
     logger.error(`PUT /grade - ${JSON.stringify(error.message)}`);
@@ -64,6 +79,13 @@ const remove = async (req, res) => {
 
   try {
     logger.info(`DELETE /grade - ${id}`);
+
+    const response = await gradeModel.findByIdAndDelete(id);
+    if (!response) {
+      res.status(404).send('ID não encontrado!');
+    } else {
+      res.send(response);
+    }
   } catch (error) {
     res
       .status(500)
@@ -75,6 +97,8 @@ const remove = async (req, res) => {
 const removeAll = async (req, res) => {
   try {
     logger.info(`DELETE /grade`);
+    const response = await gradeModel.deleteMany({});
+    res.send(response);
   } catch (error) {
     res.status(500).send({ message: 'Erro ao excluir todos as Grades' });
     logger.error(`DELETE /grade - ${JSON.stringify(error.message)}`);
