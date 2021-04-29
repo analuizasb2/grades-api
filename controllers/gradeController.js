@@ -130,7 +130,6 @@ export default {
   create,
   findAll,
   findOne,
-  findByName,
   update,
   remove,
   removeAll,
