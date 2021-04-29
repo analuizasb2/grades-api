@@ -4,7 +4,9 @@ import { gradeModel } from '../models/gradeModel.js';
 
 const create = async (req, res) => {
   try {
-    res.send({ message: 'Grade inserido com sucesso' });
+    const grade = new gradeModel(req.body);
+    await grade.save();
+    res.send({ message: `Grade de ${grade.name} inserido com sucesso!` });
     logger.info(`POST /grade - ${JSON.stringify()}`);
   } catch (error) {
     res
@@ -42,6 +44,22 @@ const findOne = async (req, res) => {
 
     if (!grade) {
       res.status(404).send('ID não encontrado!');
+    }
+    res.send(grade);
+  } catch (error) {
+    res.status(500).send({ message: 'Erro ao buscar o Grade id: ' + id });
+    logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
+  }
+};
+
+const findByName = async (req, res) => {
+  const name = req.params.name;
+  try {
+    logger.info(`GET /grade by name - ${name}`);
+    const grade = await gradeModel.find({ name: name });
+
+    if (!grade) {
+      res.status(404).send('Nome não encontrado!');
     }
     res.send(grade);
   } catch (error) {
