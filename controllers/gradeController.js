@@ -123,4 +123,12 @@ const removeAll = async (req, res) => {
   }
 };
 
-export default { create, findAll, findOne, update, remove, removeAll };
+export default {
+  create,
+  findAll,
+  findOne,
+  findByName,
+  update,
+  remove,
+  removeAll,
+};
