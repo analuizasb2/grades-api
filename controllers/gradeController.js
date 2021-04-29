@@ -54,6 +54,8 @@ const findOne = async (req, res) => {
 
 const findByName = async (req, res) => {
   const name = req.headers.name;
+  console.log('HEADERS: ' + req.headers);
+  console.log('PARAMS: ' + req.params);
   logger.info(`GET BY NAME -  ${req.headers}`);
   try {
     logger.info(`GET /grade by name - ${name}`);
