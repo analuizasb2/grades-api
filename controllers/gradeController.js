@@ -63,7 +63,7 @@ const findByName = async (req, res) => {
     }
     res.send(grade);
   } catch (error) {
-    res.status(500).send({ message: 'Erro ao buscar o Grade id: ' + id });
+    res.status(500).send({ message: 'Erro ao buscar o Grade nome: ' + name });
     logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
   }
 };
