@@ -43,8 +43,8 @@ const findAll = async (req, res) => {
 };
 
 const findPage = async (req, res) => {
-  const page = req.query.page;
-  const limit = req.query.limit;
+  const page = +req.query.page;
+  const limit = +req.query.limit;
   const skip = (page - 1) * limit;
 
   try {
