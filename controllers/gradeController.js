@@ -49,10 +49,7 @@ const findPage = async (req, res) => {
 
   try {
     logger.info(`GET /grade`);
-    let allGrades = (allGrades = await gradeModel
-      .find({})
-      .skip(skip)
-      .limit(limit));
+    const allGrades = await gradeModel.find({}).skip(skip).limit(limit);
     res.send(allGrades);
   } catch (error) {
     res
