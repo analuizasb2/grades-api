@@ -7,7 +7,7 @@ const create = async (req, res) => {
     const grade = new gradeModel(req.body);
     await grade.save();
     res.send({ message: `Grade de ${grade.name} inserido com sucesso!` });
-    logger.info(`POST /grade - ${JSON.stringify()}`);
+    logger.info(`POST /grade - ${JSON.stringify(req.body)}`);
   } catch (error) {
     res
       .status(500)
@@ -54,7 +54,7 @@ const findOne = async (req, res) => {
 
 const findByName = async (req, res) => {
   const name = req.headers.name;
-  logger.info(`GET /grade -  ${req.headers}`);
+  logger.info(`GET BY NAME -  ${req.headers}`);
   try {
     logger.info(`GET /grade by name - ${name}`);
     const grade = await gradeModel.find({ name: name });
