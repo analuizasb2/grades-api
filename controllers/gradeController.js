@@ -18,6 +18,9 @@ const create = async (req, res) => {
 
 const findAll = async (req, res) => {
   const name = req.query.name;
+  console.log('HEADERS: ' + req.headers);
+  console.log('PARAMS: ' + req.params);
+  console.log('QUERY: ' + req.query);
 
   //condicao para o filtro no findAll
   var condition = name
@@ -29,7 +32,7 @@ const findAll = async (req, res) => {
     logger.info(`GET /grade`);
     let allGrades = [];
     if (!name) allGrades = await gradeModel.find({});
-    else allGrades = await gradeModel.find({ name: nameToFind });
+    else allGrades = await gradeModel.find(condition);
     res.send(allGrades);
   } catch (error) {
     res
