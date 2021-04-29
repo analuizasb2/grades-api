@@ -64,8 +64,8 @@ const findByName = async (req, res) => {
     if (!grade) {
       res.status(404).send('Nome não encontrado!');
     }
-    //   res.send(grade);
-    res.send(req.headers);
+    res.send(grade);
+    //    res.send(req.headers);
   } catch (error) {
     res.status(500).send({ message: 'Erro ao buscar o Grade nome: ' + name });
     logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
