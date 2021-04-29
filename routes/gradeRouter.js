@@ -5,6 +5,7 @@ const app = express();
 
 app.post('/grade/', controller.create);
 app.get('/grade/', controller.findAll);
+app.get('/gradePage/', controller.findPage);
 //app.patch('/grade?', controller.findByName);
 app.get('/grade/:id', controller.findOne);
 app.put('/grade/:id', controller.update);

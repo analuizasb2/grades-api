@@ -26,13 +26,33 @@ const findAll = async (req, res) => {
   var condition = name
     ? { name: { $regex: new RegExp(name), $options: 'i' } }
     : {};
-  let nameToFind = `/${name}/`;
+  console.log(condition);
 
   try {
     logger.info(`GET /grade`);
     let allGrades = [];
     if (!name) allGrades = await gradeModel.find({});
     else allGrades = await gradeModel.find(condition);
+    res.send(allGrades);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || 'Erro ao listar todos os documentos' });
+    logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
+  }
+};
+
+const findPage = async (req, res) => {
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const skip = (page - 1) * limit;
+
+  try {
+    logger.info(`GET /grade`);
+    let allGrades = (allGrades = await gradeModel
+      .find({})
+      .skip(skip)
+      .limit(limit));
     res.send(allGrades);
   } catch (error) {
     res
@@ -139,4 +159,5 @@ export default {
   update,
   remove,
   removeAll,
+  findPage,
 };
