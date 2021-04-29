@@ -17,7 +17,7 @@ const create = async (req, res) => {
 };
 
 const findAll = async (req, res) => {
-  const name = req.query.name;
+  const name = req.headers.name;
 
   //condicao para o filtro no findAll
   var condition = name
@@ -26,7 +26,7 @@ const findAll = async (req, res) => {
 
   try {
     logger.info(`GET /grade`);
-    const allGrades = await gradeModel.find({});
+    const allGrades = await gradeModel.find({ name: condition });
     res.send(allGrades);
   } catch (error) {
     res
@@ -52,25 +52,24 @@ const findOne = async (req, res) => {
   }
 };
 
-const findByName = async (req, res) => {
-  const name = req.headers.name;
-  console.log('HEADERS: ' + req.headers);
-  console.log('PARAMS: ' + req.params);
-  logger.info(`GET BY NAME -  ${req.headers}`);
-  try {
-    logger.info(`GET /grade by name - ${name}`);
-    const grade = await gradeModel.find({ name: name });
+// const findByName = async (req, res) => {
+//   const name = req.headers.name;
+//   console.log('HEADERS: ' + req.headers);
+//   console.log('PARAMS: ' + req.params);
+//   logger.info(`GET BY NAME -  ${req.headers}`);
+//   try {
+//     logger.info(`GET /grade by name - ${name}`);
+//     const grade = await gradeModel.find({ name: name });
 
-    if (!grade) {
-      res.status(404).send('Nome não encontrado!');
-    }
-    res.send(grade);
-    //    res.send(req.headers);
-  } catch (error) {
-    res.status(500).send({ message: 'Erro ao buscar o Grade nome: ' + name });
-    logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
-  }
-};
+//     if (!grade) {
+//       res.status(404).send('Nome não encontrado!');
+//     }
+//     res.send(grade);
+//   } catch (error) {
+//     res.status(500).send({ message: 'Erro ao buscar o Grade nome: ' + name });
+//     logger.error(`GET /grade - ${JSON.stringify(error.message)}`);
+//   }
+// };
 
 const update = async (req, res) => {
   if (!req.body) {
