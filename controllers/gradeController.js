@@ -26,8 +26,9 @@ const findAll = async (req, res) => {
 
   try {
     logger.info(`GET /grade`);
-    if (!name) const allGrades = await gradeModel.find({});
-    else const allGrades = await gradeModel.find({ name: name });
+    let allGrades = [];
+    if (!name) allGrades = await gradeModel.find({});
+    else allGrades = await gradeModel.find({ name: name });
     res.send(allGrades);
   } catch (error) {
     res
